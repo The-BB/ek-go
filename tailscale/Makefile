@@ -5,15 +5,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tailscale
-PKG_VERSION:=1.58.2
+PKG_VERSION:=1.68.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=b0e1bbb62ef3834e99f5212b44043cec1866b07e
+PKG_SOURCE_VERSION:=52ddf0d0163276fc2f35ea06974594fac580a6b6
 PKG_SOURCE_URL:=https://github.com/tailscale/tailscale
-PKG_MIRROR_HASH:=b9a5c450859472cb7a33954b3fdb43ca67f811415e31dcb3ca33dea17d2598e8
+PKG_MIRROR_HASH:=9541775d0baead32356ca88f5cdcce257b03f405b06186761419cb54c3c6ce64
 
-include ../goenv.mk
+PKG_BUILD_PARALLEL:=1
+
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/golang.mk
 
@@ -35,7 +36,7 @@ endef
 define Package/tailscale_nohf
 	$(call Package/tailscale/Default)
 	VARIANT:=nohf
-	DEPENDS+=@(TARGET_armv7_2_6||TARGET_armv7_3_2)
+	DEPENDS+=@arm
 endef
 
 define Package/tailscale/description
