@@ -5,21 +5,21 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=adguardhome
-PKG_VERSION:=v0.107.44
+PKG_VERSION:=0.107.51
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-02-06
-PKG_SOURCE_VERSION:=48d1c673a97d230ea79ec5531e1639f928b7d6f7
+PKG_SOURCE_DATE:=2024-06-06
+PKG_SOURCE_VERSION:=f73717ec0836c445014a075608c91381e202a35f
 PKG_SOURCE_URL:=https://github.com/AdguardTeam/AdGuardHome
-PKG_MIRROR_HASH:=78e2768276d34c68e80b60588fc8edaff03fee6e1f359ba9940fb0ef4bf4598a
+PKG_MIRROR_HASH:=2a0f13656aae4504a5966efe5295507a60e506d308efaa1c902d5c6bb9c2e527
 
 PKG_LICENSE:=GPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE.txt
 
 PKG_BUILD_DEPENDS:=node-yarn/host
+PKG_BUILD_PARALLEL:=1
 
-include ../goenv.mk
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/golang.mk
 
@@ -40,7 +40,7 @@ endef
 define Package/adguardhome-go_nohf
   $(call Package/adguardhome-go/Default)
   VARIANT:=nohf
-  DEPENDS+=@(TARGET_armv7_2_6||TARGET_armv7_3_2)
+  DEPENDS+=@arm
 endef
 
 define Package/adguardhome-go/description
@@ -58,12 +58,15 @@ Package/adguardhome-go_nohf/conffiles=$(Package/adguardhome-go/conffiles)
 
 GO_LDFLAGS += \
 	-X '$(XIMPORTPATH)/internal/version.channel=release' \
-	-X '$(XIMPORTPATH)/internal/version.version=$(PKG_VERSION)' \
+	-X '$(XIMPORTPATH)/internal/version.version=v$(PKG_VERSION)' \
 	-X '$(XIMPORTPATH)/internal/version.committime=$(PKG_SOURCE_DATE)'
 
 define Build/Web
-	( cd $(PKG_BUILD_DIR); NODE_OPTIONS=--openssl-legacy-provider make js-deps js-build; )
-	( cd $(PKG_BUILD_DIR); $(GO_BIN) mod tidy; )
+	( cd $(PKG_BUILD_DIR); \
+		NODE_OPTIONS=--openssl-legacy-provider \
+		$(MAKE) js-deps js-build; \
+	)
+	( cd $(PKG_BUILD_DIR); $(GO_BIN_MOD_TIDY); )
 endef
 
 Hooks/Compile/Pre += Build/Web
