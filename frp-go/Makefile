@@ -5,15 +5,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=frp
-PKG_VERSION:=0.54.0
+PKG_VERSION:=0.58.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=d689f0fc531604b78b510c2f5f182831a2b5bee5
+PKG_SOURCE_VERSION:=e64969221784b97338e821f6f5606cfaa40177c5
 PKG_SOURCE_URL:=https://github.com/fatedier/frp
-PKG_MIRROR_HASH:=6cc3f21b9cf469249f6a85b8de355066ec7da27848b809940701292c9d8c1e3d
+PKG_MIRROR_HASH:=0423ea189194903836164d665f5071ff45d18be2b2bbce487b29872ee2f769bf
 
-include ../goenv.mk
+PKG_BUILD_PARALLEL:=1
+
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/golang.mk
 
@@ -34,7 +35,7 @@ endef
 define Package/frp-go_nohf
 	$(call Package/frp/Default)
 	VARIANT:=nohf
-	DEPENDS+=@(TARGET_armv7_2_6||TARGET_armv7_3_2)
+	DEPENDS+=@arm
 endef
 
 define Package/frp-go/description
@@ -55,7 +56,8 @@ Package/frp-go_nohf/conffiles=$(Package/frp-go/conffiles)
 
 GO_VARS += GO111MODULE=on
 
-GO_TARGET:=./cmd/frps ./cmd/frpc
+GO_TAGS:=frpc, frps
+GO_TARGET:=./cmd/frpc ./cmd/frps
 
 define Package/frp-go/install
 	$(INSTALL_DIR) $(1)/opt/bin
