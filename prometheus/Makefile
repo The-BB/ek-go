@@ -5,21 +5,21 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=prometheus
-PKG_VERSION:=2.49.1
+PKG_VERSION:=2.53.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-01-15
-PKG_SOURCE_VERSION:=43e14844a33b65e2a396e3944272af8b3a494071
+PKG_SOURCE_DATE:=2024-06-19
+PKG_SOURCE_VERSION:=4c35b9250afefede41c5f5acd76191f90f625898
 PKG_SOURCE_URL:=https://github.com/prometheus/prometheus
-PKG_MIRROR_HASH:=b039558f28bf15f1175f10241439ac7f4737c713756bbf897bab19a2bc898a7c
+PKG_MIRROR_HASH:=05f9a138d5464a9aeb02e59eeefc61f5ff84fce63ea24fc4b7c52593fb969b79
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_DEPENDS:=node/host
+PKG_BUILD_PARALLEL:=1
 
-include ../goenv.mk
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/golang.mk
 
@@ -40,7 +40,7 @@ endef
 define Package/prometheus_nohf
   $(call Package/prometheus/Default)
   VARIANT:=nohf
-  DEPENDS:=@(TARGET_armv7_2_6||TARGET_armv7_3_2)
+  DEPENDS:=@arm
 endef
 
 define Package/prometheus/description
@@ -68,7 +68,7 @@ GO_LDFLAGS += \
 	-X 'github.com/prometheus/common/version.BuildUser=Entware@Entware' \
 	-X 'github.com/prometheus/common/version.BuildDate=$(PKG_SOURCE_DATE)'
 
-GO_TAGS:=-tags=netgo,builtinassets
+GO_TAGS:=builtinassets, netgo
 
 GO_TARGET:=./cmd/...
 
@@ -79,7 +79,7 @@ define Build/CompilePre
 	( cd $(PKG_BUILD_DIR)/web/ui; \
 		$(FIND) ./static -type f -a -name "*.map" -delete; )
 	( cd $(PKG_BUILD_DIR); $(SHELL) scripts/compress_assets.sh; )
-	( cd $(PKG_BUILD_DIR); $(GO_BIN) generate -tags plugins ./plugins; )
+	( cd $(PKG_BUILD_DIR); $(GO_BIN_GENERATE) -tags plugins ./plugins; )
 endef
 
 Hooks/Compile/Pre += Build/CompilePre
