@@ -8,15 +8,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=headscale
-PKG_VERSION:=v0.22.3
+PKG_VERSION:=0.22.3
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=b01f1f1867136d9b2d7b1392776eb363b482c525
 PKG_SOURCE_URL:=https://github.com/juanfont/headscale
-PKG_MIRROR_HASH:=7ede2caf0b55651279a222b52247b3019da951c8671c67a907954dc56613aeff
+PKG_MIRROR_HASH:=f21402f26a33a4849da25e315b5df9ad17a060bd19628f9462b9dec76d08f055
 
-include ../goenv.mk
+PKG_BUILD_PARALLEL:=1
+
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/golang.mk
 
@@ -38,7 +39,7 @@ endef
 define Package/headscale_nohf
 	$(call Package/headscale/Default)
 	VARIANT:=nohf
-	DEPENDS+=@(TARGET_armv7_2_6||TARGET_armv7_3_2)
+	DEPENDS+=@arm
 endef
 
 define Package/headscale/description
@@ -56,13 +57,11 @@ endef
 Package/headscale_nohf/conffiles=$(Package/headscale/conffiles)
 
 GO_LDFLAGS += \
-	-X '$(XIMPORTPATH)/cmd/headscale/cli.Version=$(PKG_VERSION)'
+	-X '$(XIMPORTPATH)/cmd/headscale/cli.Version=v$(PKG_VERSION)'
 
 GO_BUILD_ARGS += -a
 
 GO_TARGET:=./cmd/headscale
-
-GO_TAGS:=-tags=ts2019
 
 define Package/headscale/install
 	$(INSTALL_DIR) $(1)/opt/bin
