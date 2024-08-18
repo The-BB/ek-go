@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tailscale
 PKG_VERSION:=1.68.2
-PKG_RELEASE:=1
+PKG_RELEASE:=3
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=c79c500c7e93c8e416c77f85d106b04a4aab23ab
@@ -25,7 +25,7 @@ define Package/tailscale/Default
 	TITLE:=Private WireGuard networks made easy
 	URL:=https://tailscale.com/
 	MAINTAINER:=Entware team, https://entware.net
-	DEPENDS:=+ca-bundle
+	EXTRA_DEPENDS:=+ca-bundle +coreutils-nohup
 endef
 
 define Package/tailscale
@@ -36,7 +36,7 @@ endef
 define Package/tailscale_nohf
 	$(call Package/tailscale/Default)
 	VARIANT:=nohf
-	DEPENDS+=@arm
+	DEPENDS:=@arm
 endef
 
 define Package/tailscale/description
