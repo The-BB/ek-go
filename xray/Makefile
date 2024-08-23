@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=xray
 PKG_VERSION:=1.8.18
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=9e6d7a3cb0c5d60b8ef3cedef7ffaf610547f619
@@ -70,6 +70,8 @@ define Package/xray/conffiles
 endef
 
 Package/xray_nohf/conffiles=$(Package/xray/conffiles)
+
+XIMPORTPATH:=$(call tolower,$(XIMPORTPATH))
 
 GO_LDFLAGS += \
 	-X '$(XIMPORTPATH)/core.build=$(COMMIT_SHORT)'
