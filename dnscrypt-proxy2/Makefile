@@ -1,15 +1,12 @@
+# SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2011-2021 Entware
-#
-# This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
-#
+# Copyright (C) 2011-2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dnscrypt-proxy2
 PKG_VERSION:=2.1.5
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=1b65fe62b01965bfee3f7ed8ba852c15de1255eb
@@ -57,6 +54,7 @@ endef
 
 Package/dnscrypt-proxy2_nohf/conffiles=$(Package/dnscrypt-proxy2/conffiles)
 
+GO_BUILD_ARGS:= -mod vendor
 GO_TARGET:=./dnscrypt-proxy
 
 define Package/dnscrypt-proxy2/install
