@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=v2rayA
 PKG_VERSION:=2.2.5.8
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=576dfc980e3d73625be50093b48e90e97cfa0747
@@ -53,6 +53,8 @@ GO_LDFLAGS += \
 	-X '$(XIMPORTPATH)/conf.Version=v$(PKG_VERSION)'
 
 GO_SRC_SUBDIR:=service
+
+GO_TAGS:=with_gvisor
 
 WEB_FILE:=$(PKG_NAME)-web-$(PKG_VERSION).tar.gz
 define Download/v2raya-web
