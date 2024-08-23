@@ -3,7 +3,7 @@
 # Copyright (C) 2024 Entware
 
 COMMIT_SHORT:=$(call version_abbrev,$(PKG_SOURCE_VERSION))
-XIMPORTPATH:=$(shell echo $(PKG_SOURCE_URL) | cut -d/ -f3- | tr '[:upper:]' '[:lower:]')
+XIMPORTPATH:=$(shell echo $(PKG_SOURCE_URL) | cut -d/ -f3-)
 
 GOARCH:=$(subst aarch64,arm64,$(subst mipsel,mipsle,$(subst x86_64,amd64,$(ARCH))))
 
