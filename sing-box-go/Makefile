@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sing-box
 PKG_VERSION:=1.9.3
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=085f60337799afc906069b540a38368968c123e4
@@ -50,6 +50,8 @@ define Package/sing-box-go/conffiles
 endef
 
 Package/sing-box-go_nohf/conffiles=$(Package/sing-box-go/conffiles)
+
+XIMPORTPATH:=$(call tolower,$(XIMPORTPATH))
 
 GO_LDFLAGS += \
 	-X '$(XIMPORTPATH)/constant.Version=$(PKG_VERSION)'
