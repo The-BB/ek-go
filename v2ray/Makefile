@@ -5,14 +5,17 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=v2ray
-PKG_VERSION:=5.16.1
+PKG_VERSION:=5.17.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-05-03
-PKG_SOURCE_VERSION:=346ca66c57ab1b6872908354d5f3e4152fff59da
+PKG_SOURCE_DATE:=2024-08-24
+PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/v2fly/v2ray-core
-PKG_MIRROR_HASH:=566d9b06f32b5929b473a948b84b7d4ecdc49782f64f37e21be6fea1d93e9c4f
+PKG_MIRROR_HASH:=076ee29029505ca974c55f6d0d821db6acb1d47e6347e2038a736100465ee450
+
+PKG_LICENSE:=MIT
+PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_PARALLEL:=1
 
@@ -24,7 +27,7 @@ define Package/v2ray/Default
 	CATEGORY:=Network
 	SUBMENU:=Web Servers/Proxies
 	TITLE:=proxy building platform
-	URL:=https://github.com/v2fly/v2ray-core
+	URL:=https://www.v2fly.org
 	MAINTAINER:=Entware team, https://entware.net
 	DEPENDS:=+ca-bundle
 endef
