@@ -1,20 +1,20 @@
+# SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2011-2023 Entware
-#
-# This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
-#
+# Copyright (C) 2023-2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=headscale
-PKG_VERSION:=0.22.3
+PKG_VERSION:=0.23.0-beta2
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=b01f1f1867136d9b2d7b1392776eb363b482c525
+PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/juanfont/headscale
-PKG_MIRROR_HASH:=f21402f26a33a4849da25e315b5df9ad17a060bd19628f9462b9dec76d08f055
+PKG_MIRROR_HASH:=77ea2191ffc6bcffee8923084ea13d0286401ac63e254891bd59c93405bd5b6a
+
+PKG_LICENSE:=BSD-3-Clause
+PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_PARALLEL:=1
 
@@ -25,7 +25,7 @@ define Package/headscale/Default
 	SECTION:=net
 	CATEGORY:=Network
 	SUBMENU:=VPN
-	TITLE:=An open source, self-hosted implementation of the Tailscale control server
+	TITLE:=Tailscale control server
 	URL:=https://github.com/juanfont/headscale
 	MAINTAINER:=Entware team, https://entware.net
 	DEPENDS:=+ca-bundle @!(mips||mipsel)
@@ -43,9 +43,11 @@ define Package/headscale_nohf
 endef
 
 define Package/headscale/description
- Headscale aims to implement a self-hosted, open source alternative to the Tailscale control server.
- Headscale's goal is to provide self-hosters and hobbyists with an open-source server they can use for their projects and labs.
- It implements a narrow scope, a single Tailnet, suitable for a personal use, or a small open-source organisation.
+ Headscale aims to implement a self-hosted, open source alternative
+ to the Tailscale control server. Headscale's goal is to provide self-hosters
+ and hobbyists with an open-source server they can use for their projects and
+ labs. It implements a narrow scope, a single Tailnet, suitable for a personal
+ use, or a small open-source organisation.
 endef
 
 Package/headscale_nohf/description=$(Package/headscale/description)
