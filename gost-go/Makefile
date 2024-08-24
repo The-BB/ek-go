@@ -5,13 +5,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gost-go
-PKG_VERSION:=3.0.0-nightly.20240625
+PKG_VERSION:=3.0.0
 PKG_RELEASE:=1
 
+PKG_SOURCE_TAG:=$(PKG_VERSION)-nightly.20240806
+
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=1400b5ff5d336849fc84d77e7c6aeb5729b37355
+PKG_SOURCE_VERSION:=v$(PKG_SOURCE_TAG)
 PKG_SOURCE_URL:=https://github.com/go-gost/gost
-PKG_MIRROR_HASH:=7a291791192423869d5a071f829c4aeec293ab8e5dc6dfbd2ce739eb851ba724
+PKG_MIRROR_HASH:=7f9d6e755cb2b38a5626c14f1808df59b6db93569603f67c8a09dfaac4849308
+
+PKG_VERSION:=$(subst -nightly.,_pre_,$(PKG_SOURCE_TAG))
+
+PKG_LICENSE:=MIT
+PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_PARALLEL:=1
 
@@ -23,7 +30,7 @@ define Package/gost-go/Default
 	CATEGORY:=Network
 	SUBMENU:=VPN
 	TITLE:=GO Simple Tunnel
-	URL:=https://github.com/SagerNet/gost
+	URL:=https://gost.run
 	MAINTAINER:=Entware team, https://entware.net
 endef
 
@@ -35,16 +42,23 @@ endef
 define Package/gost-go_nohf
 	$(call Package/gost-go/Default)
 	VARIANT:=nohf
-	DEPENDS+=@arm
+	DEPENDS:=@arm
 endef
 
 define Package/gost-go/description
- A simple security tunnel written in golang
+  GO Simple Tunnel - a simple tunnel written in golang.
 endef
 
 Package/gost-go_nohf/description=$(Package/gost-go/description)
 
 GO_TARGET:=./cmd/gost
+
+define FixVersion
+	$(SED) 's|version.*|version = \"$(PKG_SOURCE_VERSION)\"|' \
+		$(PKG_BUILD_DIR)/cmd/gost/version.go
+endef
+
+Hooks/Compile/Pre += FixVersion
 
 define Package/gost-go/install
 	$(INSTALL_DIR) $(1)/opt/bin
