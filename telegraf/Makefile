@@ -5,13 +5,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=telegraf
-PKG_VERSION:=1.31.1
+PKG_VERSION:=1.31.3
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=99fcdc283bdca2bb00c1fa8c59172a69d9c2137d
+PKG_SOURCE_VERSION:=ecf94b120d812e798a092b1fc0181b699aa063d5
 PKG_SOURCE_URL:=https://github.com/influxdata/telegraf
-PKG_MIRROR_HASH:=6563774cb00d8055c658fdbd277e7eced8ab9dda9241739e2e32d98586f6ff61
+PKG_MIRROR_HASH:=73c15c101a404c6b2c5f18614f69aeb44eaf585cb11b6aa11fd98dd790c3a1c2
+
+PKG_LICENSE:=MIT
+PKG_LICENSE_FILES:=LICENSE
 
 PKG_BUILD_PARALLEL:=1
 
@@ -21,8 +24,8 @@ include $(INCLUDE_DIR)/golang.mk
 define Package/telegraf/Default
 	SECTION:=utils
 	CATEGORY:=Utilities
-	TITLE:=an agent for collecting, processing, aggregating, writing metrics
-	URL:=https://github.com/influxdata/telegraf
+	TITLE:=server agent to help you collect metrics
+	URL:=https://www.influxdata.com/time-series-platform/telegraf
 	MAINTAINER:=Entware team, https://entware.net
 endef
 
@@ -38,9 +41,10 @@ define Package/telegraf_nohf
 endef
 
 define Package/telegraf/description
- Telegraf is an agent for collecting, processing, aggregating, and writing metrics.
- Design goals are to have a minimal memory footprint with a plugin system so that
- developers in the community can easily add support for collecting metrics.
+ Telegraf is an agent for collecting, processing, aggregating, and
+ writing metrics. Design goals are to have a minimal memory footprint with a
+ plugin system so that developers in the community can easily add support for
+ collecting metrics.
 endef
 
 Package/telegraf_nohf/description=$(Package/telegraf/description)
