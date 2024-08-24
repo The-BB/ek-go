@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sing-box
-PKG_VERSION:=1.9.3
-PKG_RELEASE:=2
+PKG_VERSION:=1.9.4
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=085f60337799afc906069b540a38368968c123e4
+PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/SagerNet/sing-box
-PKG_MIRROR_HASH:=9c35038f5be6fcb99f4412d90008b0457f92a0ff21398a5774a0625ac2e8c82a
+PKG_MIRROR_HASH:=43471844908b479f78f3c4a57795c928a2f3945cb106f31f0f4f4a5a7e55c8b0
 
 PKG_BUILD_PARALLEL:=1
 
@@ -23,7 +23,7 @@ define Package/sing-box-go/Default
 	CATEGORY:=Network
 	SUBMENU:=VPN
 	TITLE:=The universal proxy platform
-	URL:=https://github.com/SagerNet/sing-box
+	URL:=https://sing-box.sagernet.org
 	MAINTAINER:=Entware team, https://entware.net
 endef
 
@@ -35,7 +35,7 @@ endef
 define Package/sing-box-go_nohf
 	$(call Package/sing-box-go/Default)
 	VARIANT:=nohf
-	DEPENDS+=@arm
+	DEPENDS:=@arm
 endef
 
 define Package/sing-box-go/description
