@@ -56,6 +56,24 @@ endef
 
 Package/kopia_nohf/conffiles=$(Package/kopia/conffiles)
 
+ifneq ($(CONFIG_USE_MUSL),)
+  define FixMusl
+	# set rw or skip
+	chmod +w -Rf $(DL_DIR)/go-mod-cache/github.com/hanwen/go-fuse/v2@v2.5.1 || true
+	# rm
+	rm -rf $(DL_DIR)/go-mod-cache/github.com/hanwen/go-fuse/v2@v2.5.1
+	# get
+	$(GO_BIN_MOD_DOWNLOAD) github.com/hanwen/go-fuse/v2@v2.5.1
+	# set rw
+	chmod +w -Rf $(DL_DIR)/go-mod-cache/github.com/hanwen/go-fuse/v2@v2.5.1
+	# patch
+	patch -p1 -d $(DL_DIR)/go-mod-cache < ./patches-mod/010-musl.patch
+	# set ro
+	chmod -w -Rf $(DL_DIR)/go-mod-cache/github.com/hanwen/go-fuse/v2@v2.5.1
+  endef
+  Hooks/Configure/Pre += FixMusl
+endif
+
 GO_LDFLAGS += \
 	-X '$(XIMPORTPATH)/repo.BuildVersion=$(PKG_VERSION)' \
 	-X '$(XIMPORTPATH)/repo.BuildInfo=$(COMMIT_SHORT)' \
