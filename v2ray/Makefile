@@ -29,18 +29,19 @@ define Package/v2ray/Default
 	TITLE:=proxy building platform
 	URL:=https://www.v2fly.org
 	MAINTAINER:=Entware team, https://entware.net
-	DEPENDS:=+ca-bundle
 endef
 
 define Package/v2ray-core
 	$(call Package/v2ray/Default)
 	VARIANT:=hf
+	EXTRA_DEPENDS:=ca-bundle, v2ray-geoip, v2ray-geosite
 endef
 
 define Package/v2ray-core_nohf
 	$(call Package/v2ray/Default)
 	VARIANT:=nohf
-	DEPENDS+=@arm
+	DEPENDS:=@arm
+	EXTRA_DEPENDS:=ca-bundle, v2ray-geoip, v2ray-geosite
 endef
 
 define Package/v2ray
