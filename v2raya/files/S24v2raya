@@ -1,20 +1,23 @@
 #!/bin/sh
 
-# V2Ray binary is xray by default (if xray installed)
-if [ -x "/opt/sbin/xray" ]; then
-  V2RAY_BIN="-b /opt/sbin/xray"
-elif [ -x "/opt/sbin/v2ray" ]; then
-  V2RAY_BIN="-b /opt/sbin/v2ray"
-else
-  echo "v2ray or xray not installed" && exit
-fi
-
 ENABLED=yes
-PROCS=v2raya
-ARGS="$V2RAY_BIN -c /opt/etc/v2raya --v2ray-assetsdir /opt/share/v2ray
---nftables-support off --log-file /opt/var/log/v2raya.log"
+
+DESC="v2rayA Service"
+PROCS="v2raya"
+PROG="/opt/bin/$PROCS"
+
+check_bins() {
+  { [ -x "/opt/sbin/v2ray" ] || [ -x "/opt/sbin/xray" ] && return 0 ; } || \
+  printf "\033[1;31m %s \033[0m\n" "aborted: v2ray or xray bins not found." && \
+  exit 1
+}
+
+PRECMD="check_bins"
+ARGS="\
+-c /opt/etc/$PROCS \
+--v2ray-assetsdir /opt/share/v2ray \
+--nftables-support off \
+--log-file /opt/var/log/$PROCS.log"
 PREARGS=""
-DESC=$PROCS
-PATH=/opt/sbin:/opt/bin:/opt/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 . /opt/etc/init.d/rc.func
