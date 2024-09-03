@@ -1,10 +1,12 @@
 #!/bin/sh
 
 ENABLED=yes
-PROCS=headscale
+
+DESC="Headscale server"
+PROCS="headscale"
+PROG="/opt/bin/$PROCS"
+
 ARGS="serve"
 PREARGS=""
-DESC="$PROCS"
-PATH=/opt/sbin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 . /opt/etc/init.d/rc.func
