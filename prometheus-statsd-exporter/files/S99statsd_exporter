@@ -1,10 +1,12 @@
 #!/bin/sh
 
 ENABLED=yes
-PROCS=statsd_exporter
+
+DESC="StatsD Exporter"
+PROCS="statsd_exporter"
+PROG="/opt/bin/$PROCS"
+
 ARGS="--statsd.mapping-config=/opt/etc/prometheus/statsd_mapping.yml"
 PREARGS=""
-DESC=$PROCS
-PATH=/opt/sbin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 . /opt/etc/init.d/rc.func
