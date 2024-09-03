@@ -1,10 +1,12 @@
 #!/bin/sh
 
 ENABLED=yes
+
+DESC="SFTPGo server"
 PROCS="sftpgo"
 PROG="/opt/sbin/$PROCS"
+
 ARGS="serve -c /opt/etc/$PROCS -l /opt/var/log/$PROCS.log --log-level info"
 PREARGS=""
-DESC="SFTPGo"
 
 . /opt/etc/init.d/rc.func
