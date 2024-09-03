@@ -1,14 +1,15 @@
 #!/bin/sh
 
-if [ -f "/opt/etc/kopia/kopia.conf" ]; then
-  . /opt/etc/kopia/kopia.conf || exit 0
-fi
-
 ENABLED=yes
-PROCS=kopia
+
+DESC="Kopia backup server"
+PROCS="kopia"
+PROG="/opt/bin/$PROCS"
+
+{ [ -f "/opt/etc/$PROCS/$PROCS.conf" ] && . /opt/etc/$PROCS/$PROCS.conf ; } || \
+{ printf "\033[1;31m %s \033[0m\n" "Abort: conf file not found." && exit 1 ; }
+
 ARGS="server start $OPTIONS"
 PREARGS=""
-DESC=$PROCS
-PATH=/opt/sbin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 . /opt/etc/init.d/rc.func
