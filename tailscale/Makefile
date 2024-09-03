@@ -28,7 +28,7 @@ define Package/tailscale/Default
 	TITLE:=Private WireGuard networks made easy
 	URL:=https://tailscale.com/
 	MAINTAINER:=Entware team, https://entware.net
-	EXTRA_DEPENDS:=+ca-bundle +coreutils-nohup
+	EXTRA_DEPENDS:=ca-bundle, coreutils-nohup
 endef
 
 define Package/tailscale
