@@ -68,7 +68,7 @@ define Package/wireguard-ui/install
 	$(INSTALL_DIR) $(1)/opt/etc/init.d
 	$(INSTALL_BIN) ./files/S80wireguard-ui $(1)/opt/etc/init.d
 	$(INSTALL_DIR) $(1)/opt/sbin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin/wireguard-ui $(1)/opt/sbin/wireguard-ui
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin/wireguard-ui $(1)/opt/sbin
 endef
 
 Package/wireguard-ui_nohf/install=$(Package/wireguard-ui/install)
