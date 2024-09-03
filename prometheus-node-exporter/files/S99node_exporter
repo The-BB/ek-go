@@ -1,10 +1,12 @@
 #!/bin/sh
 
 ENABLED=yes
-PROCS=node_exporter
+
+DESC="Machine metrics Exporter"
+PROCS="node_exporter"
+PROG="/opt/bin/$PROCS"
+
 ARGS=""
 PREARGS=""
-DESC=$PROCS
-PATH=/opt/sbin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 . /opt/etc/init.d/rc.func
