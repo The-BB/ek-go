@@ -1,12 +1,18 @@
 #!/bin/sh
 
-. /opt/etc/AdGuardHome/adguardhome.conf
-
 ENABLED=yes
-PROCS=AdGuardHome
+
+DESC="AdGuard Home"
+PROCS="AdGuardHome"
+PROG="/opt/bin/$PROCS"
+
+{ [ -f "/opt/etc/$PROCS/adguardhome.conf" ] && \
+. /opt/etc/$PROCS/adguardhome.conf ; } || \
+{ printf "\033[1;31m %s \033[0m\n" "Abort: conf file not found." && exit 1 ; }
+
+PID_FILE="/opt/var/run/$PROCS.pid"
+
 ARGS="$OPTIONS"
 PREARGS=""
-DESC=$PROCS
-PATH=/opt/sbin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 . /opt/etc/init.d/rc.func
