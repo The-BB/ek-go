@@ -30,7 +30,7 @@ define Package/wireguard-ui/Default
   SUBMENU:=VPN
   TITLE:=Wireguard web interface
   URL:=https://github.com/ngoduykhanh/wireguard-ui
-  DEPENDS:=+ca-bundle +iptables +jq +wireguard-tools
+  EXTRA_DEPENDS:=ca-bundle, iptables, jq, wireguard-tools
 endef
 
 define Package/wireguard-ui
@@ -41,7 +41,7 @@ endef
 define Package/wireguard-ui_nohf
   $(call Package/wireguard-ui/Default)
   VARIANT:=nohf
-  DEPENDS+=@arm
+  DEPENDS:=@arm
 endef
 
 define Package/wireguard-ui/description
