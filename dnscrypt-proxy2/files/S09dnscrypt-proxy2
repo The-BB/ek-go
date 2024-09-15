@@ -2,7 +2,7 @@
 
 ENABLED=yes
 
-DESC="DNSCrypt proxy"
+DESC="DNSCrypt Proxy (2)"
 PROCS="dnscrypt-proxy"
 PROG="/opt/sbin/$PROCS"
 
