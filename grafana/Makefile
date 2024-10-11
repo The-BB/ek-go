@@ -5,14 +5,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=grafana
-PKG_VERSION:=10.4.7
+PKG_VERSION:=10.4.10
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-06-30
-PKG_SOURCE_VERSION:=ac358f3e561c56e9e5e01d315fd306e01a8aadc5
+PKG_SOURCE_DATE:=2024-09-27
+PKG_SOURCE_VERSION:=8afe3110090def4c990909693875e79a490dd5f4
 PKG_SOURCE_URL:=https://github.com/grafana/grafana
-PKG_MIRROR_HASH:=f50fe3046b5d2edf23d47f9ce229b11f4683f6cf24c76d65eaf4ee743a0c37c5
+PKG_MIRROR_HASH:=5b41f26a9796e9c8bc2d36d8111223ac03103e8bb7b8ea5039073b6a6d207d1b
 
 PKG_LICENSE:=AGPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE LICENSING.md
@@ -71,17 +71,45 @@ define Build/Deps
 		$(GO_ENV_COMMON) $(GO_BIN) build -mod=mod -modfile=wire.mod \
 		-o=$(PKG_BUILD_DIR)/wire-host "github.com/google/wire/cmd/wire"; \
 	)
+	( cd $(PKG_BUILD_DIR); \
+		for p in \
+			github.com/apache/arrow/go/v15/arrow/ipc@v15.0.0 \
+			github.com/apache/arrow/go/v15/arrow@v15.0.0 \
+			github.com/googleapis/gax-go/v2@v2.13.0 \
+			github.com/grafana/grafana-google-sdk-go/pkg/tokenprovider@v0.1.0 \
+			github.com/grafana/grafana/pkg/cmd/grafana \
+			github.com/grafana/grafana/pkg/codegen \
+			github.com/grafana/grafana/pkg/components/imguploader/gcs \
+			github.com/grafana/grafana/pkg/extensions \
+			github.com/grafana/grafana/pkg/login/social \
+			github.com/grafana/pyroscope-go/godeltaprof/internal/pprof@v0.1.6 \
+			github.com/kr/pretty@v0.3.1 \
+			github.com/labstack/gommon/color@v0.4.0 \
+			github.com/prometheus/common/config@v0.46.0 \
+			k8s.io/apiserver/pkg/storage/etcd3@v0.29.0 \
+			k8s.io/apiserver/pkg/storage/storagebackend/factory@v0.29.0 \
+			k8s.io/client-go/tools/clientcmd@v0.29.0; do \
+			$(GO_ENV_COMMON) $(GO_BIN) get $$$$p; \
+		done; \
+	)
+	# godeltaprof@v0.1.6/internal/pprof/delta_mutex.go:30:20: undefined: runtime_cyclesPerSecond
+	# godeltaprof@v0.1.6/internal/pprof/proto.go:320:8: undefined: runtime_expandFinalInlineFrame
+	( cd $(PKG_BUILD_DIR); \
+		$(GO_ENV_COMMON) $(GO_BIN) get github.com/grafana/pyroscope-go/godeltaprof@v0.1.7; \
+	)
 	# generate code from .cue files
 	( cd $(PKG_BUILD_DIR); \
-		$(GO_BIN_GENERATE) ./pkg/plugins/plugindef; \
-		$(GO_BIN_GENERATE) ./kinds/gen.go; \
-		$(GO_BIN_GENERATE) ./public/app/plugins/gen.go; \
-		$(GO_BIN_GENERATE) ./pkg/kindsysreport/codegen/report.go; \
+		for t in \
+			./pkg/plugins/plugindef \
+			./kinds/gen.go \
+			./public/app/plugins/gen.go \
+			./pkg/kindsysreport/codegen/report.go; do \
+			$(GO_BIN_GENERATE) $$$$t; \
+		done; \
 	)
 	# generate go files
 	( cd $(PKG_BUILD_DIR); \
-		$(GO_ENV_COMMON) \
-		$(PKG_BUILD_DIR)/wire-host gen -tags "oss" ./pkg/server; \
+		$(GO_ENV_COMMON) $(PKG_BUILD_DIR)/wire-host gen -tags "oss" ./pkg/server; \
 	)
 endef
 
