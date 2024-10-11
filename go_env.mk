@@ -40,6 +40,12 @@ GO_VARS += GOOS=linux
 
 GO_VARS += GOARCH=$(GOARCH)
 
+# https://go.dev/wiki/MinimumRequirements:
+# "The GOARM64 environment variable defaults to v8.0."
+ifeq ($(ARCH),aarch64)
+  GO_VARS += GOARM64=v8.0
+endif
+
 ifeq ($(ARCH),arm)
   ifeq ($(BUILD_VARIANT),hf)
 	GO_VARS += GOARM=7,hardfloat
