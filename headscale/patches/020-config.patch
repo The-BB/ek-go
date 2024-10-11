@@ -18,7 +18,7 @@
  
      # This flag can be used, so the DERP map entry for the embedded DERP server is not written automatically,
      # it enables the creation of your very own DERP map entry using a locally available file with the parameter DERP.paths
-@@ -159,7 +159,7 @@ database:
+@@ -162,7 +162,7 @@ database:
  
    # SQLite config
    sqlite:
@@ -27,7 +27,7 @@
  
      # Enable WAL mode for SQLite. This is recommended for production environments.
      # https://www.sqlite.org/wal.html
-@@ -200,7 +200,7 @@ tls_letsencrypt_hostname: ""
+@@ -205,7 +205,7 @@ tls_letsencrypt_hostname: ""
  # Path to store certificates and metadata needed by
  # letsencrypt
  # For production:
@@ -36,7 +36,7 @@
  
  # Type of ACME challenge to use, currently supported types:
  # HTTP-01 or TLS-ALPN-01
-@@ -313,7 +313,7 @@ dns:
+@@ -318,7 +318,7 @@ dns:
  
  # Unix socket used for the CLI to connect without authentication
  # Note: for production you will want to set this to something like:

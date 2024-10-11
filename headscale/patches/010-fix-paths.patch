@@ -18,7 +18,7 @@
  			fmt.Println("Failed to dump config")
 --- a/cmd/headscale/cli/root.go
 +++ b/cmd/headscale/cli/root.go
-@@ -26,7 +26,7 @@ func init() {
+@@ -27,7 +27,7 @@ func init() {
  
  	cobra.OnInitialize(initConfig)
  	rootCmd.PersistentFlags().
@@ -29,7 +29,7 @@
  	rootCmd.PersistentFlags().
 --- a/hscontrol/types/config.go
 +++ b/hscontrol/types/config.go
-@@ -218,9 +218,9 @@ func LoadConfig(path string, isFile bool
+@@ -224,9 +224,9 @@ func LoadConfig(path string, isFile bool
  	} else {
  		viper.SetConfigName("config")
  		if path == "" {
@@ -41,7 +41,7 @@
  		} else {
  			// For testing
  			viper.AddConfigPath(path)
-@@ -234,7 +234,7 @@ func LoadConfig(path string, isFile bool
+@@ -240,7 +240,7 @@ func LoadConfig(path string, isFile bool
  
  	viper.SetDefault("policy.mode", "file")
  
@@ -50,7 +50,7 @@
  	viper.SetDefault("tls_letsencrypt_challenge_type", HTTP01ChallengeType)
  
  	viper.SetDefault("log.level", "info")
-@@ -252,7 +252,7 @@ func LoadConfig(path string, isFile bool
+@@ -257,7 +257,7 @@ func LoadConfig(path string, isFile bool
  	viper.SetDefault("derp.server.stun.enabled", true)
  	viper.SetDefault("derp.server.automatically_add_embedded_derp_region", true)
  
@@ -116,7 +116,7 @@
  
  		// Envknob for enabling DERP debug logs
  		hsic.env["DERP_DEBUG_LOGS"] = "true"
-@@ -287,8 +287,8 @@ func New(
+@@ -293,8 +293,8 @@ func New(
  
  	env := []string{
  		"HEADSCALE_DEBUG_PROFILING_ENABLED=1",
@@ -127,7 +127,7 @@
  		"HEADSCALE_DEBUG_DEADLOCK=1",
  		"HEADSCALE_DEBUG_DEADLOCK_TIMEOUT=5s",
  		"HEADSCALE_DEBUG_HIGH_CARDINALITY_METRICS=1",
-@@ -307,7 +307,7 @@ func New(
+@@ -313,7 +313,7 @@ func New(
  		// Cmd:          []string{"headscale", "serve"},
  		// TODO(kradalby): Get rid of this hack, we currently need to give us some
  		// to inject the headscale configuration further down.
@@ -136,7 +136,7 @@
  		Env:        env,
  	}
  
-@@ -345,7 +345,7 @@ func New(
+@@ -351,7 +351,7 @@ func New(
  
  	hsic.container = container
  
@@ -145,16 +145,16 @@
  	if err != nil {
  		return nil, fmt.Errorf("failed to write headscale config to container: %w", err)
  	}
-@@ -393,7 +393,7 @@ func (t *HeadscaleInContainer) hasTLS()
+@@ -399,7 +399,7 @@ func (t *HeadscaleInContainer) hasTLS()
  
  // Shutdown stops and cleans up the Headscale container.
- func (t *HeadscaleInContainer) Shutdown() error {
--	err := t.SaveLog("/tmp/control")
-+	err := t.SaveLog("/opt/tmp/control")
+ func (t *HeadscaleInContainer) Shutdown() (string, string, error) {
+-	stdoutPath, stderrPath, err := t.SaveLog("/tmp/control")
++	stdoutPath, stderrPath, err := t.SaveLog("/opt/tmp/control")
  	if err != nil {
  		log.Printf(
  			"Failed to save log from control: %s",
-@@ -401,7 +401,7 @@ func (t *HeadscaleInContainer) Shutdown(
+@@ -407,7 +407,7 @@ func (t *HeadscaleInContainer) Shutdown(
  		)
  	}
  
@@ -163,7 +163,7 @@
  	if err != nil {
  		log.Printf(
  			"Failed to metrics from control: %s",
-@@ -420,7 +420,7 @@ func (t *HeadscaleInContainer) Shutdown(
+@@ -426,7 +426,7 @@ func (t *HeadscaleInContainer) Shutdown(
  		)
  	}
  
@@ -172,7 +172,7 @@
  	if err != nil {
  		log.Printf(
  			"Failed to save profile from control: %s",
-@@ -428,7 +428,7 @@ func (t *HeadscaleInContainer) Shutdown(
+@@ -434,7 +434,7 @@ func (t *HeadscaleInContainer) Shutdown(
  		)
  	}
  
@@ -181,7 +181,7 @@
  	if err != nil {
  		log.Printf(
  			"Failed to save mapresponses from control: %s",
-@@ -438,7 +438,7 @@ func (t *HeadscaleInContainer) Shutdown(
+@@ -444,7 +444,7 @@ func (t *HeadscaleInContainer) Shutdown(
  
  	// We dont have a database to save if we use postgres
  	if !t.postgres {
@@ -190,7 +190,7 @@
  		if err != nil {
  			log.Printf(
  				"Failed to save database from control: %s",
-@@ -481,7 +481,7 @@ func (t *HeadscaleInContainer) SaveMetri
+@@ -487,7 +487,7 @@ func (t *HeadscaleInContainer) SaveMetri
  }
  
  func (t *HeadscaleInContainer) SaveProfile(savePath string) error {
@@ -199,7 +199,7 @@
  	if err != nil {
  		return err
  	}
-@@ -499,7 +499,7 @@ func (t *HeadscaleInContainer) SaveProfi
+@@ -505,7 +505,7 @@ func (t *HeadscaleInContainer) SaveProfi
  }
  
  func (t *HeadscaleInContainer) SaveMapResponses(savePath string) error {
@@ -208,7 +208,7 @@
  	if err != nil {
  		return err
  	}
-@@ -517,7 +517,7 @@ func (t *HeadscaleInContainer) SaveMapRe
+@@ -523,7 +523,7 @@ func (t *HeadscaleInContainer) SaveMapRe
  }
  
  func (t *HeadscaleInContainer) SaveDatabase(savePath string) error {
