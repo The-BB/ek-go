@@ -5,14 +5,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=adguardhome
-PKG_VERSION:=0.107.52
+PKG_VERSION:=0.107.53
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-06-06
-PKG_SOURCE_VERSION:=c7d8b9ede1eaf8507e406875c679c0a1c21e9cca
+PKG_SOURCE_DATE:=2024-10-03
+PKG_SOURCE_VERSION:=2aaf8ab3c1685f7dbff3a1f6e4051768edb3459b
 PKG_SOURCE_URL:=https://github.com/AdguardTeam/AdGuardHome
-PKG_MIRROR_HASH:=1416358cfa1ab86f0b9b3a421e501be11214b6c33ac80e674913e2385f81d5b8
+PKG_MIRROR_HASH:=d74702bc4f8b82bda64a0a937a98e73ee602c21b9361c0c683671212e03e9316
 
 PKG_LICENSE:=GPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE.txt
@@ -51,7 +51,6 @@ Package/adguardhome-go_nohf/description=$(Package/adguardhome-go/description)
 
 define Package/adguardhome-go/conffiles
 /opt/etc/AdGuardHome/adguardhome.conf
-/opt/etc/hosts
 endef
 
 Package/adguardhome-go_nohf/conffiles=$(Package/adguardhome-go/conffiles)
@@ -82,16 +81,6 @@ define Package/adguardhome-go/install
 endef
 
 Package/adguardhome-go_nohf/install=$(Package/adguardhome-go/install)
-
-define Package/adguardhome-go/postinst
-#!/bin/sh
-
-if [ ! -s "/opt/etc/hosts" ]; then
-  cat /etc/hosts > /opt/etc/hosts
-fi
-endef
-
-Package/adguardhome-go_nohf/postinst=$(Package/adguardhome-go/postinst)
 
 $(eval $(call BuildPackage,adguardhome-go))
 $(eval $(call BuildPackage,adguardhome-go_nohf))
