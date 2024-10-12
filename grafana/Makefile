@@ -71,31 +71,30 @@ define Build/Deps
 		$(GO_ENV_COMMON) $(GO_BIN) build -mod=mod -modfile=wire.mod \
 		-o=$(PKG_BUILD_DIR)/wire-host "github.com/google/wire/cmd/wire"; \
 	)
-	( cd $(PKG_BUILD_DIR); \
-		for p in \
-			github.com/apache/arrow/go/v15/arrow/ipc@v15.0.0 \
-			github.com/apache/arrow/go/v15/arrow@v15.0.0 \
-			github.com/googleapis/gax-go/v2@v2.13.0 \
-			github.com/grafana/grafana-google-sdk-go/pkg/tokenprovider@v0.1.0 \
-			github.com/grafana/grafana/pkg/cmd/grafana \
-			github.com/grafana/grafana/pkg/codegen \
-			github.com/grafana/grafana/pkg/components/imguploader/gcs \
-			github.com/grafana/grafana/pkg/extensions \
-			github.com/grafana/grafana/pkg/login/social \
-			github.com/grafana/pyroscope-go/godeltaprof/internal/pprof@v0.1.6 \
-			github.com/kr/pretty@v0.3.1 \
-			github.com/labstack/gommon/color@v0.4.0 \
-			github.com/prometheus/common/config@v0.46.0 \
-			k8s.io/apiserver/pkg/storage/etcd3@v0.29.0 \
-			k8s.io/apiserver/pkg/storage/storagebackend/factory@v0.29.0 \
-			k8s.io/client-go/tools/clientcmd@v0.29.0; do \
-			$(GO_ENV_COMMON) $(GO_BIN) get $$$$p; \
-		done; \
+	# fix go 1.23.x
+	( cd $(PKG_BUILD_DIR); $(GO_BIN_GET) \
+		github.com/apache/arrow/go/v15/arrow/ipc@v15.0.0 \
+		github.com/apache/arrow/go/v15/arrow@v15.0.0 \
+		github.com/googleapis/gax-go/v2@v2.13.0 \
+		github.com/grafana/grafana-google-sdk-go/pkg/tokenprovider@v0.1.0 \
+		github.com/grafana/grafana/pkg/cmd/grafana \
+		github.com/grafana/grafana/pkg/codegen \
+		github.com/grafana/grafana/pkg/components/imguploader/gcs \
+		github.com/grafana/grafana/pkg/extensions \
+		github.com/grafana/grafana/pkg/login/social \
+		github.com/grafana/pyroscope-go/godeltaprof/internal/pprof@v0.1.6 \
+		github.com/kr/pretty@v0.3.1 \
+		github.com/labstack/gommon/color@v0.4.0 \
+		github.com/prometheus/common/config@v0.46.0 \
+		k8s.io/apiserver/pkg/storage/etcd3@v0.29.0 \
+		k8s.io/apiserver/pkg/storage/storagebackend/factory@v0.29.0 \
+		k8s.io/client-go/tools/clientcmd@v0.29.0; \
 	)
-	# godeltaprof@v0.1.6/internal/pprof/delta_mutex.go:30:20: undefined: runtime_cyclesPerSecond
-	# godeltaprof@v0.1.6/internal/pprof/proto.go:320:8: undefined: runtime_expandFinalInlineFrame
+# godeltaprof@v0.1.6/internal/pprof/delta_mutex.go:30:20: undefined: runtime_cyclesPerSecond
+# godeltaprof@v0.1.6/internal/pprof/proto.go:320:8: undefined: runtime_expandFinalInlineFrame
+	# fix go 1.23.x
 	( cd $(PKG_BUILD_DIR); \
-		$(GO_ENV_COMMON) $(GO_BIN) get github.com/grafana/pyroscope-go/godeltaprof@v0.1.7; \
+		$(GO_BIN_GET) github.com/grafana/pyroscope-go/godeltaprof@v0.1.7; \
 	)
 	# generate code from .cue files
 	( cd $(PKG_BUILD_DIR); \
