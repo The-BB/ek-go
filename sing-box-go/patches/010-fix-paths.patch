@@ -1,6 +1,6 @@
---- a/cmd/sing-box/main.go
-+++ b/cmd/sing-box/main.go
-@@ -69,6 +69,6 @@ func preRun(cmd *cobra.Command, args []s
+--- a/cmd/sing-box/cmd.go
++++ b/cmd/sing-box/cmd.go
+@@ -63,6 +63,6 @@ func preRun(cmd *cobra.Command, args []s
  		}
  	}
  	if len(configPaths) == 0 && len(configDirectories) == 0 {
