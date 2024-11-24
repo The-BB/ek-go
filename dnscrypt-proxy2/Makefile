@@ -21,10 +21,12 @@ include $(INCLUDE_DIR)/golang.mk
 define Package/dnscrypt-proxy2/Default
 	SECTION:=net
 	CATEGORY:=Network
+	SUBMENU:=IP Addresses and Names
 	TITLE:=Flexible DNS proxy with encrypted DNS protocols
 	URL:=https://github.com/DNSCrypt/dnscrypt-proxy
 	MAINTAINER:=Entware team, https://entware.net
 	DEPENDS:=+ca-bundle
+	CONFLICTS:=dnscrypt-proxy
 endef
 
 define Package/dnscrypt-proxy2
