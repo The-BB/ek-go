@@ -24,6 +24,7 @@ include $(INCLUDE_DIR)/golang.mk
 define Package/git-lfs/Default
   SECTION:=net
   CATEGORY:=Network
+  SUBMENU:=Version Control Systems
   TITLE:=Git Large File Storage
   URL:=https://git-lfs.github.com
   MAINTAINER:=Entware team, https://entware.net
