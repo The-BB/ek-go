@@ -8,9 +8,7 @@ PROG="/opt/bin/$PROCS"
 
 FLAGS="\
 --config.file=/opt/etc/$PROCS/$PROCS.yml \
---storage.tsdb.path=/opt/var/lib/$PROCS \
---web.console.libraries=/opt/etc/$PROCS/console_libraries \
---web.console.templates=/opt/etc/$PROCS/consoles"
+--storage.tsdb.path=/opt/var/lib/$PROCS"
 
 ARGS="$FLAGS"
 PREARGS=""
