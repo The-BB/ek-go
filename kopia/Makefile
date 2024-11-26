@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=kopia
-PKG_VERSION:=0.17.0
+PKG_VERSION:=0.18.2
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=89c8eb47af2e1d5c1d14fe299a0cf7eaac095abf
+PKG_SOURCE_VERSION:=c70f1a1c1164ee8676f85f9a1cea6de0a782a3ae
 PKG_SOURCE_URL:=https://github.com/kopia/kopia
-PKG_MIRROR_HASH:=d9bed3dc3a10884b83d444faea204eabcd2cc71799c073d41763ff92384ad246
+PKG_MIRROR_HASH:=a2e3519b3d24867d4b7356c014aaade91b3bb9e3f9271c46e1ee8c0112760f3f
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -55,24 +55,6 @@ define Package/kopia/conffiles
 endef
 
 Package/kopia_nohf/conffiles=$(Package/kopia/conffiles)
-
-ifneq ($(CONFIG_USE_MUSL),)
-  define FixMusl
-	# set rw or skip
-	chmod +w -Rf $(DL_DIR)/go-mod-cache/github.com/hanwen/go-fuse/v2@v2.5.1 || true
-	# rm
-	rm -rf $(DL_DIR)/go-mod-cache/github.com/hanwen/go-fuse/v2@v2.5.1
-	# get
-	$(GO_BIN_MOD_DOWNLOAD) github.com/hanwen/go-fuse/v2@v2.5.1
-	# set rw
-	chmod +w -Rf $(DL_DIR)/go-mod-cache/github.com/hanwen/go-fuse/v2@v2.5.1
-	# patch
-	patch -p1 -d $(DL_DIR)/go-mod-cache < ./patches-mod/010-musl.patch
-	# set ro
-	chmod -w -Rf $(DL_DIR)/go-mod-cache/github.com/hanwen/go-fuse/v2@v2.5.1
-  endef
-  Hooks/Configure/Pre += FixMusl
-endif
 
 GO_LDFLAGS += \
 	-X '$(XIMPORTPATH)/repo.BuildVersion=$(PKG_VERSION)' \
