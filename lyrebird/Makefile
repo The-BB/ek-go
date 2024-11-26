@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=lyrebird
-PKG_VERSION:=0.4.0
+PKG_VERSION:=0.5.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_URL:=https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/lyrebird
-PKG_MIRROR_HASH:=626dd50a8f8033ee337899718a26dcdddce3cb3b514fa4ed9021e72e52a02527
+PKG_MIRROR_HASH:=c3075442a946e75debac34184c486f3a1f93b33c9ba56d0c550dc817ab7e4a3f
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE LICENSE-GPL3.txt
