@@ -5,14 +5,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=grafana
-PKG_VERSION:=10.4.10
+PKG_VERSION:=10.4.13
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-09-27
-PKG_SOURCE_VERSION:=8afe3110090def4c990909693875e79a490dd5f4
+PKG_SOURCE_DATE:=2024-11-15
+PKG_SOURCE_VERSION:=1913b18d4660449b67fb63aaa1a6f84a354c55e7
 PKG_SOURCE_URL:=https://github.com/grafana/grafana
-PKG_MIRROR_HASH:=5b41f26a9796e9c8bc2d36d8111223ac03103e8bb7b8ea5039073b6a6d207d1b
+PKG_MIRROR_HASH:=04074a56e7deb1ebb62bd59c20bb838b2c55b1b60bb1801a0149020c6bb817a8
 
 PKG_LICENSE:=AGPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE LICENSING.md
@@ -82,19 +82,12 @@ define Build/Deps
 		github.com/grafana/grafana/pkg/components/imguploader/gcs \
 		github.com/grafana/grafana/pkg/extensions \
 		github.com/grafana/grafana/pkg/login/social \
-		github.com/grafana/pyroscope-go/godeltaprof/internal/pprof@v0.1.6 \
 		github.com/kr/pretty@v0.3.1 \
 		github.com/labstack/gommon/color@v0.4.0 \
 		github.com/prometheus/common/config@v0.46.0 \
 		k8s.io/apiserver/pkg/storage/etcd3@v0.29.0 \
 		k8s.io/apiserver/pkg/storage/storagebackend/factory@v0.29.0 \
 		k8s.io/client-go/tools/clientcmd@v0.29.0; \
-	)
-# godeltaprof@v0.1.6/internal/pprof/delta_mutex.go:30:20: undefined: runtime_cyclesPerSecond
-# godeltaprof@v0.1.6/internal/pprof/proto.go:320:8: undefined: runtime_expandFinalInlineFrame
-	# fix go 1.23.x
-	( cd $(PKG_BUILD_DIR); \
-		$(GO_BIN_GET) github.com/grafana/pyroscope-go/godeltaprof@v0.1.7; \
 	)
 	# generate code from .cue files
 	( cd $(PKG_BUILD_DIR); \
