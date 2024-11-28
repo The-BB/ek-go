@@ -1,0 +1,12 @@
+#!/bin/sh
+
+ENABLED=yes
+
+DESC="AList"
+PROCS="alist"
+PROG="/opt/sbin/$PROCS"
+
+ARGS="server"
+PREARGS=""
+
+. /opt/etc/init.d/rc.func

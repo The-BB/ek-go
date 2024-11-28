@@ -1,0 +1,41 @@
+--- a/cmd/flags/config.go
++++ b/cmd/flags/config.go
+@@ -2,6 +2,10 @@ package flags
+ 
+ var (
+ 	DataDir     string
++	DBPath      string
++	LogPath     string
++	IndexDir    string
++	TempDir     string
+ 	Debug       bool
+ 	NoPrefix    bool
+ 	Dev         bool
+--- a/cmd/root.go
++++ b/cmd/root.go
+@@ -26,7 +26,7 @@ func Execute() {
+ }
+ 
+ func init() {
+-	RootCmd.PersistentFlags().StringVar(&flags.DataDir, "data", "data", "data folder")
++	RootCmd.PersistentFlags().StringVar(&flags.DataDir, "data", "/opt/var/lib/alist/data", "data folder")
+ 	RootCmd.PersistentFlags().BoolVar(&flags.Debug, "debug", false, "start with debug mode")
+ 	RootCmd.PersistentFlags().BoolVar(&flags.NoPrefix, "no-prefix", false, "disable env prefix")
+ 	RootCmd.PersistentFlags().BoolVar(&flags.Dev, "dev", false, "start with dev mode")
+--- a/internal/conf/config.go
++++ b/internal/conf/config.go
+@@ -93,10 +93,10 @@ type Config struct {
+ }
+ 
+ func DefaultConfig() *Config {
+-	tempDir := filepath.Join(flags.DataDir, "temp")
+-	indexDir := filepath.Join(flags.DataDir, "bleve")
+-	logPath := filepath.Join(flags.DataDir, "log/log.log")
+-	dbPath := filepath.Join(flags.DataDir, "data.db")
++	tempDir := filepath.Join(flags.TempDir, "/opt/var/lib/alist/data/temp")
++	indexDir := filepath.Join(flags.IndexDir, "/opt/var/lib/alist/data/bleve")
++	logPath := filepath.Join(flags.LogPath, "/opt/var/log/alist.log")
++	dbPath := filepath.Join(flags.DBPath, "/opt/var/lib/alist/data/data.db")
+ 	return &Config{
+ 		Scheme: Scheme{
+ 			Address:    "0.0.0.0",
