@@ -1,0 +1,27 @@
+#!/bin/sh
+
+ENABLED=yes
+
+DESC="Netbird Client"
+PROCS="netbird"
+PROG="/opt/sbin/$PROCS"
+
+{ [ -f "/opt/etc/$PROCS/env" ] && . /opt/etc/"$PROCS"/env ; } || \
+{ printf "\033[1;31m %s \033[0m\n" "Abort: conf file not found." && exit 1 ; }
+
+pre_cmd() {
+#  rm -f /opt/var/run/"$PROCS".sock
+  for i in /opt/var/lib/"$PROCS" /opt/var/log/"$PROCS"; do
+    [ -d "$i" ] || {
+      mkdir -pm 0755 "$i"
+    }
+  done
+}
+
+PRECMD="pre_cmd"
+ARGS="service run $FLAGS"
+PREARGS=""
+
+PATH=/opt/sbin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+. /opt/etc/init.d/rc.func
