@@ -5,14 +5,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=grafana
-PKG_VERSION:=10.4.13
+PKG_VERSION:=10.4.14
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-11-15
-PKG_SOURCE_VERSION:=1913b18d4660449b67fb63aaa1a6f84a354c55e7
+PKG_SOURCE_DATE:=2024-12-03
+PKG_SOURCE_VERSION:=5e34be80a86f976758213f0f40ce7a153ea47d0d
 PKG_SOURCE_URL:=https://github.com/grafana/grafana
-PKG_MIRROR_HASH:=04074a56e7deb1ebb62bd59c20bb838b2c55b1b60bb1801a0149020c6bb817a8
+PKG_MIRROR_HASH:=13b9d311bd165c5719a32cc38a3daa444d937f196e7b25fe0b0c846781b93eb9
 
 PKG_LICENSE:=AGPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE LICENSING.md
@@ -77,8 +77,6 @@ define Build/Deps
 		github.com/apache/arrow/go/v15/arrow@v15.0.0 \
 		github.com/googleapis/gax-go/v2@v2.13.0 \
 		github.com/grafana/grafana-google-sdk-go/pkg/tokenprovider@v0.1.0 \
-		github.com/grafana/grafana/pkg/cmd/grafana \
-		github.com/grafana/grafana/pkg/codegen \
 		github.com/grafana/grafana/pkg/components/imguploader/gcs \
 		github.com/grafana/grafana/pkg/extensions \
 		github.com/grafana/grafana/pkg/login/social \
