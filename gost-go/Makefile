@@ -49,13 +49,6 @@ Package/gost-go_nohf/description=$(Package/gost-go/description)
 
 GO_TARGET:=./cmd/gost
 
-define FixVersion
-	$(SED) 's|version.*|version = \"$(PKG_SOURCE_VERSION)\"|' \
-		$(PKG_BUILD_DIR)/cmd/gost/version.go
-endef
-
-Hooks/Compile/Pre += FixVersion
-
 define Package/gost-go/install
 	$(INSTALL_DIR) $(1)/opt/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin/gost $(1)/opt/bin/
