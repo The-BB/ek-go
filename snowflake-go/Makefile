@@ -9,7 +9,7 @@ PKG_VERSION:=2.10.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=8b2e12c96d4a924409ba13910af2412ffbc042fc
+PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake
 PKG_MIRROR_HASH:=f621d324a71c6692023e9bc5aaeffeba3d17980190cde9aca74c780ff041b943
 
@@ -33,7 +33,7 @@ endef
 define Package/snowflake-go_nohf
 	$(call Package/snowflake/Default)
 	VARIANT:=nohf
-	DEPENDS+=@arm
+	DEPENDS:=@arm
 endef
 
 define Package/snowflake-go/description
