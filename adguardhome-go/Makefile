@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2019-2024 Entware
+# Copyright (C) 2019-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=adguardhome
-PKG_VERSION:=0.107.55
+PKG_VERSION:=0.107.57
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-12-11
-PKG_SOURCE_VERSION:=ceb178fcd562af02802590db6cb8093ff26924ab
+PKG_SOURCE_DATE:=2025-02-20
+PKG_SOURCE_VERSION:=805de598050b93b02f60b85ba0ac268c830f7255
 PKG_SOURCE_URL:=https://github.com/AdguardTeam/AdGuardHome
-PKG_MIRROR_HASH:=7815724a8aa2f9f59426cf12331c35865da88a7a87d819719c3163abc3c9e456
+PKG_MIRROR_HASH:=32b139d8a2dce5850020888eeb9baf3e425fc8d1a84e6d01c292e5941825b558
 
 PKG_LICENSE:=GPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE.txt
@@ -60,15 +60,14 @@ GO_LDFLAGS += \
 	-X '$(XIMPORTPATH)/internal/version.version=v$(PKG_VERSION)' \
 	-X '$(XIMPORTPATH)/internal/version.committime=$(PKG_SOURCE_DATE)'
 
-define Build/Web
+define Build/Compile
 	( cd $(PKG_BUILD_DIR); \
 		NODE_OPTIONS=--openssl-legacy-provider \
 		$(MAKE) js-deps js-build; \
 	)
 	( cd $(PKG_BUILD_DIR); $(GO_BIN_MOD_TIDY); )
+	$(call Build/Compile/Go)
 endef
-
-Hooks/Compile/Pre += Build/Web
 
 define Package/adguardhome-go/install
 	$(INSTALL_DIR) $(1)/opt/bin
