@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2022-2024 Entware
+# Copyright (C) 2022-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=alist
-PKG_VERSION:=3.40.0
+PKG_VERSION:=3.42.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-11-22
-PKG_SOURCE_VERSION:=94915b214838714431a6735ebd4632eeec28568d
+PKG_SOURCE_DATE:=2025-01-27
+PKG_SOURCE_VERSION:=226c34929a8bf7154bcf6c9f701c78da356c7ce5
 PKG_SOURCE_URL:=https://github.com/AlistGo/alist
-PKG_MIRROR_HASH:=573f9409e22d73aa94b66d61a76dbf13ac089fc2a6ae1d19bc97edc97440b38e
+PKG_MIRROR_HASH:=cd65aa20cef8be665ff20f12608f84dd5668dfc6a07d8b1d99eca1b93d78c1a5
 
 PKG_LICENSE:=AGPL-3.0
 PKG_LICENSE_FILES:=LICENSE
@@ -48,13 +48,13 @@ endef
 
 Package/alist_nohf/description=$(Package/alist/description)
 
-WEB_VERSION:=3.39.2
+WEB_VERSION:=$(PKG_VERSION)
 WEB_FILE:=$(PKG_NAME)-web-$(WEB_VERSION).tar.gz
 define Download/alist-web
-  URL:=https://github.com/AlistGo/alist-web/releases/download/$(WEB_VERSION)/
-  URL_FILE:=dist.tar.gz
   FILE:=$(WEB_FILE)
-  HASH:=d998315aff5544e7d7248214d02a3b04a92366bf0ac50fb4791b23833e8b543a
+  URL_FILE:=dist.tar.gz
+  URL:=https://github.com/AlistGo/alist-web/releases/download/$(WEB_VERSION)
+  HASH:=685dd13b4da39e253085d82fd11074f051b1cbc40238479421763b3d2e49b2f0
 endef
 
 GIT_TAG:=v$(PKG_VERSION)-$(COMMIT_SHORT)
@@ -74,7 +74,7 @@ GO_TAGS:=jsoniter
 
 define Build/Prepare
 	$(call Build/Prepare/Default)
-	$(HOST_TAR) -xzf $(DL_DIR)/$(WEB_FILE) -C $(PKG_BUILD_DIR)/public 
+	$(HOST_TAR) -xf $(DL_DIR)/$(WEB_FILE) -C $(PKG_BUILD_DIR)/public
 endef
 
 define Package/alist/install
