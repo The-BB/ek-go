@@ -1,17 +1,17 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2021-2024 Entware
+# Copyright (C) 2021-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tailscale
-PKG_VERSION:=1.78.3
+PKG_VERSION:=1.80.2
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=1b41fdeddb6598b35ba15cc6b07740e0cc0e8411
+PKG_SOURCE_VERSION:=c7a79d7bae40495113f888110857eba411779ef6
 PKG_SOURCE_URL:=https://github.com/tailscale/tailscale
-PKG_MIRROR_HASH:=aed62536845e1bccaabf318c369fc9d3efb3a905fb2d8df1d150de043800fcdb
+PKG_MIRROR_HASH:=e9cebc99d26909929f2ee135d72b69fc3aa34118c7b877123ad8c6c7046f2ffa
 
 PKG_LICENSE:=BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE
