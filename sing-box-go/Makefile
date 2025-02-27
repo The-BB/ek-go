@@ -1,17 +1,17 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sing-box
-PKG_VERSION:=1.10.6
+PKG_VERSION:=1.11.4
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/SagerNet/sing-box
-PKG_MIRROR_HASH:=4379ee73326db3d24f9fce4a4cdc8ea774058d64938e610ba0069ab8f6cce813
+PKG_MIRROR_HASH:=643c76fcbf4d1090163178c3db33ad721a7f9660d0f0cedd07db0033f4fe3893
 
 PKG_BUILD_PARALLEL:=1
 
