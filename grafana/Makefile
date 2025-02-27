@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2023-2024 Entware
+# Copyright (C) 2023-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=grafana
-PKG_VERSION:=10.4.14
+PKG_VERSION:=10.4.16
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-12-03
-PKG_SOURCE_VERSION:=5e34be80a86f976758213f0f40ce7a153ea47d0d
+PKG_SOURCE_DATE:=2026-02-14
+PKG_SOURCE_VERSION:=5262cd7eac1e5e3f2acff1511521d42f09d1ec81
 PKG_SOURCE_URL:=https://github.com/grafana/grafana
-PKG_MIRROR_HASH:=13b9d311bd165c5719a32cc38a3daa444d937f196e7b25fe0b0c846781b93eb9
+PKG_MIRROR_HASH:=1f9905e4b2e31124d06dfcefe8ea5e2dcd8453777721e432ee33bfae12b8f7de
 
 PKG_LICENSE:=AGPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE LICENSING.md
@@ -71,22 +71,6 @@ define Build/Deps
 		$(GO_ENV_COMMON) $(GO_BIN) build -mod=mod -modfile=wire.mod \
 		-o=$(PKG_BUILD_DIR)/wire-host "github.com/google/wire/cmd/wire"; \
 	)
-	# fix go 1.23.x
-	( cd $(PKG_BUILD_DIR); $(GO_BIN_GET) \
-		github.com/apache/arrow/go/v15/arrow/ipc@v15.0.0 \
-		github.com/apache/arrow/go/v15/arrow@v15.0.0 \
-		github.com/googleapis/gax-go/v2@v2.13.0 \
-		github.com/grafana/grafana-google-sdk-go/pkg/tokenprovider@v0.1.0 \
-		github.com/grafana/grafana/pkg/components/imguploader/gcs \
-		github.com/grafana/grafana/pkg/extensions \
-		github.com/grafana/grafana/pkg/login/social \
-		github.com/kr/pretty@v0.3.1 \
-		github.com/labstack/gommon/color@v0.4.0 \
-		github.com/prometheus/common/config@v0.46.0 \
-		k8s.io/apiserver/pkg/storage/etcd3@v0.29.0 \
-		k8s.io/apiserver/pkg/storage/storagebackend/factory@v0.29.0 \
-		k8s.io/client-go/tools/clientcmd@v0.29.0; \
-	)
 	# generate code from .cue files
 	( cd $(PKG_BUILD_DIR); \
 		for t in \
@@ -103,8 +87,6 @@ define Build/Deps
 	)
 endef
 
-Hooks/Compile/Pre += Build/Deps
-
 define Build/Web
 	# build frontend
 	# FIXME JavaScript heap out of memory
@@ -116,7 +98,11 @@ define Build/Web
 	)
 endef
 
-Hooks/Compile/Post += Build/Web
+define Build/Compile
+	$(call Build/Deps)
+	$(call Build/Web)
+	$(call Build/Compile/Go)
+endef
 
 define Package/grafana/install
 	$(INSTALL_DIR) $(1)/opt/bin
