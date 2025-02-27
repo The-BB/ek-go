@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2016-2024 Entware
+# Copyright (C) 2016-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=syncthing
-PKG_VERSION:=1.29.0
+PKG_VERSION:=1.29.2
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2025-01-06
+PKG_SOURCE_DATE:=2025-01-12
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/syncthing/syncthing
-PKG_MIRROR_HASH:=2a9d84bd36328bd5d344e80a5c73e3ad45fef428818decd10ded652a52e09a58
+PKG_MIRROR_HASH:=1647299a5a86a6d21350176972cf3b516c4dcd280a4b7ad938d72dd047594307
 
 PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -73,7 +73,10 @@ define Build/Web
 	)
 endef
 
-Hooks/Compile/Pre += Build/Web
+define Build/Compile
+	$(call Build/Web)
+	$(call Build/Compile/Go)
+endef
 
 define Package/syncthing/install
 	$(INSTALL_DIR) $(1)/opt/bin
