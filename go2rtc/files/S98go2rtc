@@ -2,7 +2,7 @@
 
 ENABLED=yes
 
-DESC="go2rtc media server"
+DESC="Stream media server"
 PROCS="go2rtc"
 PROG="/opt/sbin/$PROCS"
 

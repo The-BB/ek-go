@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=go2rtc
-PKG_VERSION:=1.9.8
+PKG_VERSION:=1.9.9
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/AlexxIT/go2rtc
-PKG_MIRROR_HASH:=71d4b819d4364ffd27cced258a42a90e5f6d330e0b7b84a8c6d4e99f4a0c012f
+PKG_MIRROR_HASH:=c7043bdee3e0af270fb95c694e09673780b381641ea7a07032db46fadbfbfd6b
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -54,9 +54,17 @@ endef
 
 Package/go2rtc_nohf/conffiles=$(Package/go2rtc/conffiles)
 
+define Build/Prepare
+	$(call Build/Prepare/Default)
+  ifeq ($(CONFIG_mips),y)
+	$(SED) '/v4l2/d' $(PKG_BUILD_DIR)/main.go
+  endif
+endef
+
 define Package/go2rtc/install
 	$(INSTALL_DIR) $(1)/opt/etc/init.d
-	$(INSTALL_BIN) ./files/S99go2rtc $(1)/opt/etc/init.d
+	$(INSTALL_BIN) ./files/S98go2rtc $(1)/opt/etc/init.d
+	$(INSTALL_DATA) ./files/go2rtc.yaml $(1)/opt/etc
 	$(INSTALL_DIR) $(1)/opt/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/bin/go2rtc $(1)/opt/sbin
 endef
