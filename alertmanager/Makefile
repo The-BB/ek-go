@@ -5,19 +5,18 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=alertmanager
-PKG_VERSION:=0.28.0
+PKG_VERSION:=0.28.1
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2025-01-15
-PKG_SOURCE_VERSION:=4ce04fb010bd626fca35928dcfe82f6f2da52ced
+PKG_SOURCE_DATE:=2025-03-07
+PKG_SOURCE_VERSION:=b2099eaa2c9ebc25edb26517cb9c732738e93910
 PKG_SOURCE_URL:=https://github.com/prometheus/alertmanager
-PKG_MIRROR_HASH:=06872df64b2cc14c6b7bf854663422137a51f5ca8764b42c8cb3dd301a6e5799
+PKG_MIRROR_HASH:=dbb3a7d141c8ef000b66f222e03349288eb6d7d978b5e9c77751a1186ae3c1a1
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
 
-PKG_BUILD_DEPENDS:=node/host
 PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
@@ -58,8 +57,6 @@ define Package/alertmanager/conffiles
 endef
 
 Package/alertmanager_nohf/conffiles=$(Package/alertmanager/conffiles)
-
-GO_BUILD_ARGS += -a
 
 GO_LDFLAGS += \
 	-X 'github.com/prometheus/common/version.Version=v$(PKG_VERSION)' \
